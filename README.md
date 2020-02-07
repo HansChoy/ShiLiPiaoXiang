@@ -5,7 +5,7 @@
  * @LastEditTime: 2019-10-05 22:49:08
  * @LastEditors: Lin Changkun
  -->
-# ihome
+# ShiLiPiaoXiang
 
 > WeChat applet of ihome using mpvue framework
 
