@@ -36,6 +36,11 @@
       "iconPath": "static/tabs/home.png",
       "selectedIconPath": "static/tabs/home_s.png"
     }, {
+      "pagePath": "pages/reservation/forAmount/main",
+      "text": "购物车",
+      "iconPath": "static/tabs/order.png",
+      "selectedIconPath": "static/tabs/order_s.png"
+    },{
       "pagePath": "pages/order/main",
       "text": "订单",
       "iconPath": "static/tabs/order.png",
@@ -62,6 +67,8 @@
     "van-card": "/static/vant/card/index",
     "van-button": "/static/vant/button/index",
     "van-stepper": "/static/vant/stepper/index",
-    "van-submit-bar": "/static/vant/submit-bar/index"
+    "van-submit-bar": "/static/vant/submit-bar/index",
+    "van-popup": "/static/vant/popup/index",
+    "van-goods-action-icon": "/static/vant/goods-action-icon/index"
   }
 }

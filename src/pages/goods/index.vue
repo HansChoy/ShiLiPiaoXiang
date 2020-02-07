@@ -34,8 +34,9 @@
       </div>
     </van-tree-select>
     <van-submit-bar :price="3050" button-text="结算" @submit="onSubmit">
-      <van-checkbox v-model="checked">全选</van-checkbox>
+      <van-goods-action-icon icon="cart-o" text="购物车" @click="onClickIcon" info="5" />
     </van-submit-bar>
+    <van-popup :show="show" position="buttom" round custom-style="height: 500rpx" @close="onClose"></van-popup>
   </div>
 </template>
 
@@ -47,6 +48,7 @@ export default {
       activeId: null,
       number: 0,
       value: 0,
+      show:false,
       test: [
         {
           item: 1,
@@ -111,6 +113,13 @@ export default {
     };
   },
   methods: {
+    onClickIcon(){
+      this.show=true;
+      console.log(this.show);
+    },
+    onClose(){
+      this.show=false;
+    },
     onChange(event) {
       console.log(event.mp.detail);
     },
