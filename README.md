@@ -7,7 +7,7 @@
  -->
 # ShiLiPiaoXiang
 
-> WeChat applet of ihome using mpvue framework
+> WeChat applet of ShiLiPiaoXiang using mpvue framework
 
 ## Build Setup
 
