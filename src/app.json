@@ -1,0 +1,67 @@
+{
+  "pages": [
+    "pages/home/main",
+    "pages/me/main",
+    "pages/test/main",
+    "pages/aboutUs/main",
+    "pages/service/main",
+    "pages/myAddress/main",
+    "pages/orderdetail/main",
+    "pages/evaluate/main",
+    "pages/makeEval/main",
+    "pages/reservation/forDuration/main",
+    "pages/reservation/forOffline/main",
+    "pages/reservation/forSquare/main",
+    "pages/reservation/forAmount/main",
+    "pages/myTool/main",
+    "pages/order/main", 
+    "pages/serviceDetail/main",
+    "pages/address/main",
+    "pages/payOver/main",
+    "pages/orderPreview/main",
+    "pages/allorder/main",
+    "pages/login/main",
+    "pages/newaddress/main",
+    "pages/booking/main",
+    "pages/goods/main"
+  ],
+  "tabBar": {
+    "color": "#959394",
+    "selectedColor":"green",
+    "borderStyle": "black",
+    "backgroundColor": "#fff",
+    "list": [{
+      "pagePath": "pages/home/main",
+      "text": "首页",
+      "iconPath": "static/tabs/home.png",
+      "selectedIconPath": "static/tabs/home_s.png"
+    }, {
+      "pagePath": "pages/order/main",
+      "text": "订单",
+      "iconPath": "static/tabs/order.png",
+      "selectedIconPath": "static/tabs/order_s.png"
+    }, {
+      "pagePath": "pages/me/main",
+      "text": "我",
+      "iconPath": "static/tabs/mine.png",
+      "selectedIconPath": "static/tabs/mine_s.png"
+    }]
+  },
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "十里飘香",
+    "navigationBarTextStyle": "black"
+  },
+  "usingComponents": {
+    "van-sidebar": "/static/vant/sidebar/index",
+    "van-sidebar-item": "/static/vant/sidebar-item/index",
+    "van-row": "/static/vant/row/index",
+    "van-col": "/static/vant/col/index",
+    "van-tree-select":"/static/vant/tree-select/index",
+    "van-card": "/static/vant/card/index",
+    "van-button": "/static/vant/button/index",
+    "van-stepper": "/static/vant/stepper/index",
+    "van-submit-bar": "/static/vant/submit-bar/index"
+  }
+}
