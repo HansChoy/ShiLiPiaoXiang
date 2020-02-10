@@ -23,7 +23,8 @@
     "pages/login/main",
     "pages/newaddress/main",
     "pages/booking/main",
-    "pages/goods/main"
+    "pages/goods/main",
+    "pages/shoppingCart/main"
   ],
   "tabBar": {
     "color": "#959394",
@@ -36,10 +37,10 @@
       "iconPath": "static/tabs/home.png",
       "selectedIconPath": "static/tabs/home_s.png"
     }, {
-      "pagePath": "pages/reservation/forAmount/main",
+      "pagePath": "pages/shoppingCart/main",
       "text": "购物车",
-      "iconPath": "static/tabs/order.png",
-      "selectedIconPath": "static/tabs/order_s.png"
+      "iconPath": "static/tabs/shoppingCart.png",
+      "selectedIconPath": "static/tabs/shoppingCart_s.png"
     },{
       "pagePath": "pages/order/main",
       "text": "订单",
@@ -69,6 +70,11 @@
     "van-stepper": "/static/vant/stepper/index",
     "van-submit-bar": "/static/vant/submit-bar/index",
     "van-popup": "/static/vant/popup/index",
-    "van-goods-action-icon": "/static/vant/goods-action-icon/index"
+    "van-goods-action-icon": "/static/vant/goods-action-icon/index",
+    "van-swipe-cell": "/static/vant/swipe-cell/index",
+    "van-radio-group": "/static/vant/radio-group/index",
+    "van-radio": "/static/vant/radio/index",
+    "van-field": "/static/vant/field/index",
+    "van-panel": "/static/vant/panel/index"
   }
 }
