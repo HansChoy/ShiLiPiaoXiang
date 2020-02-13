@@ -1,5 +1,5 @@
 /*
- * @Description: "商品分类"的界面
+ * @Description: "商品详情"的界面
  * @Author: Celine
  * @Date: 2019-10-15 17:27:07
  * @LastEditTime: 2019-10-15 17:27:34

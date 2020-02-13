@@ -7,7 +7,7 @@
  -->
 <template>
   <div class="shoppingCart">
-    <scroll-view scroll-y="true" style="height: 1050rpx;">
+    <scroll-view scroll-y="true" style="height: 1000rpx;">
       <van-swipe-cell v-for="good in items" :key="good.item">
         <van-card
           :num="good.num"

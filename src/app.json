@@ -24,7 +24,9 @@
     "pages/newaddress/main",
     "pages/booking/main",
     "pages/goods/main",
-    "pages/shoppingCart/main"
+    "pages/shoppingCart/main",
+    "pages/orderPre/main",
+    "pages/goodsDetail/main"
   ],
   "tabBar": {
     "color": "#959394",
@@ -75,6 +77,7 @@
     "van-radio-group": "/static/vant/radio-group/index",
     "van-radio": "/static/vant/radio/index",
     "van-field": "/static/vant/field/index",
-    "van-panel": "/static/vant/panel/index"
+    "van-panel": "/static/vant/panel/index",
+    "van-image": "/static/vant/image/index"
   }
 }
