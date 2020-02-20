@@ -115,13 +115,13 @@ export default {
       inputVal: "", //输入值
       grids: [
         {
-          src: "http://localhost:8081/image/sale.png",
-          name: "折扣优惠",
+          src: "http://localhost:8081/image/setmeal.png",
+          name: "精品套餐",
           index: 1
         },
         {
-          src: "http://localhost:8081/image/setmeal.png",
-          name: "精品套餐",
+          src: "http://localhost:8081/image/sale.png",
+          name: "折扣优惠",
           index: 2
         },
         {
@@ -146,7 +146,7 @@ export default {
         },
         {
           src: "http://localhost:8081/image/all.png",
-          name: "全部服务",
+          name: "全部",
           index: 7
         }
       ],
@@ -181,7 +181,7 @@ export default {
       success: res => {
         //session_key 未过期，并且在本生命周期一直有效
         console.log("session_key 未过期");
-        this.getRole();
+        // this.getRole();
       },
       fail: err => {
         //使用箭头函数可解决this的作用域问题，箭头函数的this就是外部的this
@@ -190,7 +190,7 @@ export default {
         // wx.redirectTo({
         //   url: "../login/main"
         // });
-        this.getRole();
+        // this.getRole();
       }
     });
   },

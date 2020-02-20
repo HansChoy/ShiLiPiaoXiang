@@ -30,7 +30,7 @@
   ],
   "tabBar": {
     "color": "#959394",
-    "selectedColor":"green",
+    "selectedColor":"#24AA7D",
     "borderStyle": "black",
     "backgroundColor": "#fff",
     "list": [{
@@ -78,6 +78,7 @@
     "van-radio": "/static/vant/radio/index",
     "van-field": "/static/vant/field/index",
     "van-panel": "/static/vant/panel/index",
-    "van-image": "/static/vant/image/index"
+    "van-image": "/static/vant/image/index",
+    "van-icon": "/static/vant/icon/index"
   }
 }

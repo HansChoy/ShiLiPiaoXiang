@@ -5,11 +5,12 @@
  * @LastEditTime: 2019-11-03 21:56:43
  * @LastEditors: Lin Changkun
  */
-// const domain = "http://10.86.2.14:80/json/"; //局域网通信
-const domain = "https://ilfengzi.club/";    //服务器通信
+const domain = "http://localhost:8081/json/"; //局域网通信
+// const domain = "https://ilfengzi.club/";    //服务器通信
 
 const interfaces = {
-  getOpenid: domain + 'json/getCode', // 获取openID的接口
+  getGoods: domain +'goods/showGoods',//获取所有商品
+  getOpenid: domain + 'getCode', // 获取openID的接口
   getRole: domain + 'json/role', //获取角色接口
   getHome: domain + 'json/home',  //获取首页接口
   getOrder: domain + 'json/order', //获取订单接口

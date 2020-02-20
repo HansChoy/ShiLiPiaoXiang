@@ -21,7 +21,7 @@
       </van-tag>
     </view>
 
-    <view class="van-card__content">
+    <view class="van-card__content" bind:tap="onClickThumb">
       <view wx:if="{{ title }}" class="van-card__title title-class">{{ title }}</view>
       <slot wx:else name="title" />
 

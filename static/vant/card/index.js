@@ -32,7 +32,9 @@ VantComponent({
     },
     methods: {
         onClickThumb() {
-            this.jumpLink('thumbLink');
+            this.$emit('clickThumb');
+            // console.log(22222);
+            // thconsole.log(11111)is.jumpLink('thumbLink');
         }
     }
 });

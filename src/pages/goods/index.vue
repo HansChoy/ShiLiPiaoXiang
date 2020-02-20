@@ -15,7 +15,7 @@
       @clickNav="onClickNav"
       @clickItem="onClickItem"
     >
-      <div slot="content" v-for="good in items[mainActiveIndex].children" :key="good.item">
+      <div slot="content" v-for="good in items[mainActiveIndex].cGoods" :key="good.item">
         <van-card
           :num="good.num"
           :tag="good.tag"
@@ -23,13 +23,16 @@
           :desc="good.desc"
           :title="good.title"
           :thumb="good.thumb"
-          @click="showDetail"
+          :origin-price="good.originPrice"
+          @clickThumb="onClickThumb"
         >
           <div slot="footer">
-            <van-button icon="icon/sub.png" type="primary" color="#fafafa"></van-button>
-            <span>{{good.num}}</span>
+            <van-icon name="icon/sub.png" size="50rpx" @click="subGoods" v-if="good.num!==0" />
+            <!-- <van-button icon="icon/sub.png" type="mini" color="#fafafa" v-if="good.num!==0"></van-button> -->
+            <span v-if="good.num!==0">{{good.num}}</span>
             <!-- <van-stepper v-model="value" default-value="0" /> -->
-            <van-button icon="icon/add.png" type="primary" color="#fafafa"></van-button>
+            <van-icon name="icon/add.png" size="50rpx" @click="addGoods" />
+            <!-- <van-button icon="icon/add.png" type="mini" color="#fafafa" @click="addGoods"></van-button> -->
           </div>
         </van-card>
       </div>
@@ -48,123 +51,40 @@ export default {
       activeId: null,
       number: 0,
       value: 0,
-      show:false,
-      test: [
-        {
-          item: 1,
-          num: 0,
-          tag: "标签",
-          price: "10.00",
-          desc: "描述",
-          title: "商品标题",
-          thumb: "http://localhost:8081/image/luroufan.jpg"
-        },
-        {
-          item: 2,
-          num: 0,
-          tag: "标签",
-          price: "20.00",
-          desc: "描述",
-          title: "商品标题",
-          thumb: "http://localhost:8081/image/jipafan.jpg"
-        }
-      ],
-      items: [
-        {
-          text: "精品套餐",
-          children: [
-            {
-              item: 1,
-              num: 0,
-              tag: "标签",
-              price: "10.00",
-              desc: "描述",
-              title: "商品标题",
-              thumb: "http://localhost:8081/image/luroufan.jpg"
-            },
-            {
-              item: 2,
-              num: 0,
-              tag: "标签",
-              price: "20.00",
-              desc: "描述",
-              title: "商品标题",
-              thumb: "http://localhost:8081/image/jipafan.jpg"
-            },
-        {
-          item: 2,
-          num: 0,
-          tag: "标签",
-          price: "20.00",
-          desc: "描述",
-          title: "商品标题",
-          thumb: "http://localhost:8081/image/jipafan.jpg"
-        },
-        {
-          item: 2,
-          num: 0,
-          tag: "标签",
-          price: "20.00",
-          desc: "描述",
-          title: "商品标题",
-          thumb: "http://localhost:8081/image/jipafan.jpg"
-        },
-        {
-          item: 2,
-          num: 0,
-          tag: "标签",
-          price: "20.00",
-          desc: "描述",
-          title: "商品标题",
-          thumb: "http://localhost:8081/image/jipafan.jpg"
-        },
-        {
-          item: 2,
-          num: 0,
-          tag: "标签",
-          price: "20.00",
-          desc: "描述",
-          title: "商品标题",
-          thumb: "http://localhost:8081/image/jipafan.jpg"
-        },
-        // {
-        //   item: 2,
-        //   num: 0,
-        //   tag: "标签",
-        //   price: "20.00",
-        //   desc: "描述",
-        //   title: "商品标题",
-        //   thumb: "http://localhost:8081/image/jipafan.jpg"
-        // }
-          ],
-          dot: true
-        },
-        {
-          text: "折扣",
-          children: [
-            {
-              item: 1,
-              num: 0,
-              tag: "标签",
-              price: "10.00",
-              desc: "描述",
-              title: "商品标题",
-              thumb: "http://localhost:8081/image/luroufan.jpg"
-            }
-          ],
-          info: 5
-        }
-      ]
+      show: false,
+      items:[]
     };
   },
-  methods: {
-    onClick(){
-      wx.switchTab({
-        url: "../shoppingCart/main"
+  created() {
+    this.$https
+      .request({
+        url: this.$interfaces.getGoods,
+        data: {
+          // userInfo: this.$store.state.user, //用户信息
+          // getcode: this.js_code //wx.login登录获取的code值
+          // getcode: res.code
+        },
+        header: {
+          "content-type": "application/json" // 默认值
+        },
+        method: "GET"
+      })
+      .then(res => {
+        console.log(res);
+        this.items=res.goods;
+        // console.log(this.items);
+      })
+      .catch(err => {
+        console.log(err);
       });
-    },
-    onClose(){
-      this.show=false;
+      console.log(this.item);
+  },
+  methods: {
+    // onClickItem(){
+    //   console.log(22222);
+    // },
+    onClose() {
+      this.show = false;
     },
     onChange(event) {
       console.log(event.mp.detail);
@@ -174,7 +94,8 @@ export default {
       this.mainActiveIndex = event.mp.detail.index;
       console.log(this.mainActiveIndex);
     },
-    showDetail(){
+    onClickThumb() {
+      console.log(22222);
       wx.navigateTo({
         url: "../goodsDetail/main"
       });
@@ -183,6 +104,9 @@ export default {
       wx.navigateTo({
         url: "../shoppingCart/main"
       });
+    },
+    addGoods(event) {
+      console.log(11111);
     }
   }
 };

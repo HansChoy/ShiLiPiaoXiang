@@ -156,21 +156,64 @@ export default {
       if (e.mp.detail.userInfo) {
         console.log(e.mp.detail.userInfo);
         //将用户信息存储到vuex
-        // this.$store.dispatch("setIsAuthenticated", true);
-        // this.$store.dispatch("setUser", e.mp.detail.userInfo);
+        this.$store.dispatch("setIsAuthenticated", true);
+        this.$store.dispatch("setUser", e.mp.detail.userInfo);
 
-        this.country = e.mp.detail.userInfo.country;
-        this.province = e.mp.detail.userInfo.province;
-        this.city = e.mp.detail.userInfo.city;
-        // this.position = e.mp.detail.userInfo.position;
-        this.haveLogin = false;
-
-        let havePhone = this.$store.state.havePhone;
-        if (havePhone == "false") {
-          this.showDialogBtn();
+        // this.userInfo = e.mp.detail.userInfo;
+        // this.getRole(); //获取角色
+        wx.login({
+        success: res => {
+          // this.js_code = res.code;
+          this.$https
+          .request({
+            url: this.$interfaces.getOpenid,
+            data: {
+              // userInfo: this.$store.state.user, //用户信息
+              // getcode: this.js_code //wx.login登录获取的code值
+              getcode: res.code,
+              userInfo: e.mp.detail.userInfo
+            },
+            header: {
+              "content-type": "application/json" // 默认值
+            },
+            method: "POST"
+          })
+          .then(res => {
+            console.log("成功向后端发送用户公开信息");
+            // console.log(res);
+            // 路由跳转
+            wx.switchTab({
+              url: "../home/main"
+            });
+          })
+          .catch(err => {
+            console.log(err);
+          });
         }
+      });
       }
     },
+    // onGotUserInfo(e) {
+    //   //判断授权是否成功
+    //   // console.log(e);
+    //   if (e.mp.detail.userInfo) {
+    //     console.log(e.mp.detail.userInfo);
+    //     //将用户信息存储到vuex
+    //     // this.$store.dispatch("setIsAuthenticated", true);
+    //     // this.$store.dispatch("setUser", e.mp.detail.userInfo);
+
+    //     this.country = e.mp.detail.userInfo.country;
+    //     this.province = e.mp.detail.userInfo.province;
+    //     this.city = e.mp.detail.userInfo.city;
+    //     // this.position = e.mp.detail.userInfo.position;
+    //     this.haveLogin = false;
+
+    //     let havePhone = this.$store.state.havePhone;
+    //     if (havePhone == "false") {
+    //       this.showDialogBtn();
+    //     }
+    //   }
+    // },
 
     /**
      * 以下是模态框处理事件
