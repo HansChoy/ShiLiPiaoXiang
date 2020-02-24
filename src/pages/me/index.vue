@@ -111,43 +111,58 @@ export default {
       phoneNumber: "" //输入的手机号码
     };
   },
-  onShow() {
-    /*********测试注释 */
-    // this.country = this.$store.state.user.country;
-    // this.province = this.$store.state.user.province;
-    // this.city = this.$store.state.user.city;
-    this.position = this.$store.state.position;
-    console.log("测试 fakeId：", this.$store.state.fakeId);
-    //如果是员工，则请求数据
-    if (this.position === 1) {
-      this.$https
-        .request({
-          url: this.$interfaces.getOrderCountAndMoney,
-          data: {
-            staffid: this.$store.state.fakeId //正式用
-            // staffid: 1, //测试用
-          },
-          header: {
-            "content-type": "application/json" // 默认值
-          },
-          method: "POST"
-        })
-        .then(res => {
-          console.log(res);
-          if (res.map.count !== null) {
-            this.count = res.map.count;
-          }
-          if (res.map.sum !== null) {
-            this.sum = res.map.sum;
-          }
-          if (res.map.monthcount !== null) {
-            this.monthcount = res.map.monthcount;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
+  // onShow() {
+  //   /*********测试注释 */
+  //   // this.country = this.$store.state.user.country;
+  //   // this.province = this.$store.state.user.province;
+  //   // this.city = this.$store.state.user.city;
+  //   this.position = this.$store.state.position;
+  //   console.log("测试 fakeId：", this.$store.state.fakeId);
+  //   //如果是员工，则请求数据
+  //   if (this.position === 1) {
+  //     this.$https
+  //       .request({
+  //         url: this.$interfaces.getOrderCountAndMoney,
+  //         data: {
+  //           staffid: this.$store.state.fakeId //正式用
+  //           // staffid: 1, //测试用
+  //         },
+  //         header: {
+  //           "content-type": "application/json" // 默认值
+  //         },
+  //         method: "POST"
+  //       })
+  //       .then(res => {
+  //         console.log(res);
+  //         if (res.map.count !== null) {
+  //           this.count = res.map.count;
+  //         }
+  //         if (res.map.sum !== null) {
+  //           this.sum = res.map.sum;
+  //         }
+  //         if (res.map.monthcount !== null) {
+  //           this.monthcount = res.map.monthcount;
+  //         }
+  //       })
+  //       .catch(err => {
+  //         console.log(err);
+  //       });
+  //   }
+  // },
+  mounted() {
+    /**
+     * 检验是否登录过期
+     */
+    // const _this = this;
+    wx.checkSession({
+      success: res => {
+        console.log("session_key 未过期");
+        this.haveLogin=false;
+      },
+      fail: err => {
+        console.log("session_key 已经过期，跳转到index登录页面");
+      }
+    });
   },
   methods: {
     onGotUserInfo(e) {
@@ -180,11 +195,16 @@ export default {
           })
           .then(res => {
             console.log("成功向后端发送用户公开信息");
+            // console.log(res)
+            this.$store.dispatch("setUserId", res.data[0]);
+            this.$store.dispatch("setCartId", res.data[1]);
+            // console.log("UserId:", this.$store.state.userId);
+            // console.log("CartIdId:", this.$store.state.cartId);
+            this.$store.dispatch("setHaveLogin", true);
+            this.haveLogin=false;
+            
             // console.log(res);
             // 路由跳转
-            wx.switchTab({
-              url: "../home/main"
-            });
           })
           .catch(err => {
             console.log(err);

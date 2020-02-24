@@ -18,6 +18,7 @@
           :desc="good.desc"
           :title="good.title"
           :thumb="good.thumb"
+          :origin-price="good.originPrice"
         ></van-card>
       </van-panel>
       <van-panel title="就餐方式">
@@ -44,7 +45,7 @@
         show-word-limit
       />
     </scroll-view>
-    <van-submit-bar :price="3050" button-text="确认支付" @submit="onSubmit"></van-submit-bar>
+    <van-submit-bar :price="price*100" button-text="确认支付" @submit="onSubmit"></van-submit-bar>
   </div>
 </template>
 
@@ -58,57 +59,54 @@ export default {
       radio: "1",
       show: false,
       message: "",
-      test: [
-        {
-          item: 1,
-          num: 0,
-          tag: "标签",
-          price: "10.00",
-          desc: "描述",
-          title: "商品标题",
-          thumb: "http://localhost:8081/image/luroufan.jpg"
-        },
-        {
-          item: 2,
-          num: 0,
-          tag: "标签",
-          price: "20.00",
-          desc: "描述",
-          title: "商品标题",
-          thumb: "http://localhost:8081/image/jipafan.jpg"
-        }
-      ],
-      items: [
-        {
-          item: 1,
-          num: 0,
-          tag: "标签",
-          price: "10.00",
-          desc: "描述",
-          title: "商品标题",
-          thumb: "http://localhost:8081/image/luroufan.jpg"
-        },
-        {
-          item: 2,
-          num: 0,
-          tag: "标签",
-          price: "20.00",
-          desc: "描述",
-          title: "商品标题",
-          thumb: "http://localhost:8081/image/jipafan.jpg"
-        },
-        {
-          item: 1,
-          num: 0,
-          tag: "标签",
-          price: "10.00",
-          desc: "描述",
-          title: "商品标题",
-          thumb: "http://localhost:8081/image/luroufan.jpg"
-        },
-        
-      ]
+      price:0.0,
+      items: []
     };
+  },
+  mounted() {
+    // if(this.$store.state.serviceDetail!=null){
+    //   this.mainActiveIndex=this.$store.state.serviceDetail;
+    // }
+    if (this.$store.state.haveLogin != true) {
+      this.$https
+        .request({
+          url: this.$interfaces.getGoods,
+          data: {},
+          header: {
+            "content-type": "application/json" // 默认值
+          },
+          method: "GET"
+        })
+        .then(res => {
+          console.log(res);
+          this.items = res.goods;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else {
+      console.log(this.$store.state.cartId);
+      this.$https
+        .request({
+          url: this.$interfaces.commitCartGoods,
+          data: {
+            cartId: this.$store.state.cartId
+          },
+          header: {
+            "content-type": "application/json" // 默认值
+          },
+          method: "POST"
+        })
+        .then(res => {
+          console.log(res);
+          this.items = res.data.goods;
+          this.price = res.data.price;
+          this.total = res.data.total;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   },
   methods: {
     onClickIcon() {

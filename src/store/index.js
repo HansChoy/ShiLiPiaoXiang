@@ -28,9 +28,11 @@ const state = {
   orderDetail:null, //用户订单详情
   oldUserAddress: null, //用户旧地址，准备编辑的地址
   isNewAddress: false, //是否为新建地址，否为编辑地址
-  havePhone: "",  //是否已存手机号
+  haveLogin: "",  //是否已存手机号
   showModel: "",  //是否弹出输入手机号的模态框
   orderId: "",  //订单id
+  userId:"",
+  cartId:"",
 };
 
 export default new Vuex.Store({

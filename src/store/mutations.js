@@ -61,6 +61,14 @@ export const setOrderId = (state, data) => {
   state.orderId = data;
 };
 
-export const setHavePhone = (state, data) => {
-  state.havePhone = data;
+export const setHaveLogin = (state, data) => {
+  state.haveLogin = data;
+};
+
+export const setCartId = (state, data) => {
+  state.cartId = data;
+};
+
+export const setUserId = (state, data) => {
+  state.userId = data;
 };

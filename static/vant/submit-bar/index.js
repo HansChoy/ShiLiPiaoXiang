@@ -45,6 +45,7 @@ VantComponent({
             this.setData({
                 hasPrice: typeof price === 'number',
                 priceStr: (price / 100).toFixed(decimalLength)
+                // priceStr: price
             });
         },
         updateTip() {

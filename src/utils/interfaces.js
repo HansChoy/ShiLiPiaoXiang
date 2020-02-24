@@ -11,6 +11,10 @@ const domain = "http://localhost:8081/json/"; //局域网通信
 const interfaces = {
   getGoods: domain +'goods/showGoods',//获取所有商品
   getOpenid: domain + 'getCode', // 获取openID的接口
+  addGoods:domain +'shoppingCart/addGoods',
+  subGoods:domain +'shoppingCart/subGoods',
+  showCartGoods:domain +'shoppingCart/showCartGoods',
+  commitCartGoods:domain +'shoppingCart/commitCartGoods',
   getRole: domain + 'json/role', //获取角色接口
   getHome: domain + 'json/home',  //获取首页接口
   getOrder: domain + 'json/order', //获取订单接口

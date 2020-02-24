@@ -114,40 +114,40 @@ export default {
       inputShowed: false, //搜索
       inputVal: "", //输入值
       grids: [
-        {
-          src: "http://localhost:8081/image/setmeal.png",
-          name: "精品套餐",
-          index: 1
-        },
+        // {
+        //   src: "http://localhost:8081/image/setmeal.png",
+        //   name: "精品套餐",
+        //   index: 1
+        // },
         {
           src: "http://localhost:8081/image/sale.png",
           name: "折扣优惠",
-          index: 2
-        },
-        {
-          src: "http://localhost:8081/image/noodle.png",
-          name: "汤面",
-          index: 3
+          index: 0
         },
         {
           src: "http://localhost:8081/image/rice.png",
           name: "饭类",
-          index: 4
+          index: 1
+        },
+        {
+          src: "http://localhost:8081/image/noodle.png",
+          name: "汤面",
+          index: 2
         },
         {
           src: "http://localhost:8081/image/fired.png",
           name: "小炒",
-          index: 5
+          index: 3
         },
         {
           src: "http://localhost:8081/image/drink.png",
           name: "饮品",
-          index: 6
+          index: 4
         },
         {
           src: "http://localhost:8081/image/all.png",
           name: "全部",
-          index: 7
+          index: 5
         }
       ],
       service: [
@@ -181,6 +181,7 @@ export default {
       success: res => {
         //session_key 未过期，并且在本生命周期一直有效
         console.log("session_key 未过期");
+        this.$store.dispatch("setHaveLogin", true);
         // this.getRole();
       },
       fail: err => {
@@ -287,37 +288,18 @@ export default {
     passData(index) {
       // console.log("$$$$$$$$$$$");
       console.log(index);
-      if (index === 7) {
+      if (index === 5) {
         //点击全部，跳转到分类页面
+        this.$store.dispatch("setServiceDetail", 0);
         wx.navigateTo({
           url: "../goods/main"
         });
       } else {
         //跳转到相应的服务详情页、传id给后端
-        this.$https
-          .request({
-            url: this.$interfaces.getServiceDetails,
-            data: {
-              id: index
-            },
-            header: {
-              "content-type": "application/json" // 默认值
-            },
-            method: "POST"
-          })
-          .then(res => {
-            // 成功，获取到后端传回到服务详情，并将其存到vuex中,给跳转后的页面用
-            this.$store.dispatch("setServiceDetail", res.detailtype);
-            console.log("我进来了");
-            console.log(this.$store.state.serviceDetail);
-            //跳转到服务详情页
-            wx.navigateTo({
-              url: "../serviceDetail/main"
-            });
-          })
-          .catch(err => {
-            console.log(err);
-          });
+        this.$store.dispatch("setServiceDetail", index);
+        wx.navigateTo({
+          url: "../goods/main"
+        });
       }
     }
   },

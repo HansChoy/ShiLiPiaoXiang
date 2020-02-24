@@ -16,19 +16,26 @@
           :desc="good.desc"
           :title="good.title"
           :thumb="good.thumb"
+          :origin-price="good.originPrice"
         >
           <div slot="footer">
-            <van-button icon="icon/sub.png" type="primary" color="#fafafa"></van-button>
-            <span>{{good.num}}</span>
-            <!-- <van-stepper v-model="value" default-value="0" /> -->
-            <van-button icon="icon/add.png" type="primary" color="#fafafa"></van-button>
+            <van-icon name="icon/sub.png" size="50rpx" @click="subGoods(good.id,index)" v-if="good.num!==0" />
+            <div class="goodSpan">
+              <span v-if="good.num!==0">{{good.num}}</span>
+            </div>
+            <van-icon
+              name="icon/add.png"
+              size="50rpx"
+              @click="addGoods(good.id,index)"
+            />
           </div>
         </van-card>
-        <van-button slot="right" square text="删除" type="danger" class="delete-button" />
+        <van-button slot="right" square text="删除" type="danger" class="delete-button" @click="deletGoods(good.id,index)"/>
       </van-swipe-cell>
     </scroll-view>
-    <van-submit-bar :price="3050" button-text="结算" @submit="onSubmit">
-      <van-goods-action-icon icon="delete" text="清空" @click="onClickIcon" info="5" />
+    <van-submit-bar :price="price*100" button-text="结算" @submit="onSubmit">
+      <van-goods-action-icon icon="delete" text="清空" @click="onClick" v-if="total===0" />
+      <van-goods-action-icon icon="delete" text="清空" @click="onClick" :info="total" v-else />
     </van-submit-bar>
   </div>
 </template>
@@ -42,74 +49,55 @@ export default {
       number: 0,
       value: 0,
       show: false,
-      test: [
-        {
-          item: 1,
-          num: 0,
-          tag: "标签",
-          price: "10.00",
-          desc: "描述",
-          title: "商品标题",
-          thumb: "http://localhost:8081/image/luroufan.jpg"
-        },
-        {
-          item: 2,
-          num: 0,
-          tag: "标签",
-          price: "20.00",
-          desc: "描述",
-          title: "商品标题",
-          thumb: "http://localhost:8081/image/jipafan.jpg"
-        }
-      ],
-      items: [
-        {
-          item: 1,
-          num: 0,
-          tag: "标签",
-          price: "10.00",
-          desc: "描述",
-          title: "商品标题",
-          thumb: "http://localhost:8081/image/luroufan.jpg"
-        },
-        {
-          item: 2,
-          num: 0,
-          tag: "标签",
-          price: "20.00",
-          desc: "描述",
-          title: "商品标题",
-          thumb: "http://localhost:8081/image/jipafan.jpg"
-        },
-        {
-          item: 1,
-          num: 0,
-          tag: "标签",
-          price: "10.00",
-          desc: "描述",
-          title: "商品标题",
-          thumb: "http://localhost:8081/image/luroufan.jpg"
-        },
-        {
-          item: 1,
-          num: 0,
-          tag: "标签",
-          price: "10.00",
-          desc: "描述",
-          title: "商品标题",
-          thumb: "http://localhost:8081/image/luroufan.jpg"
-        },
-        {
-          item: 1,
-          num: 0,
-          tag: "标签",
-          price: "10.00",
-          desc: "描述",
-          title: "商品标题",
-          thumb: "http://localhost:8081/image/luroufan.jpg"
-        }
-      ]
+      items: [],
+      price: 0.0,
+      total: 0
     };
+  },
+  mounted() {
+    // if(this.$store.state.serviceDetail!=null){
+    //   this.mainActiveIndex=this.$store.state.serviceDetail;
+    // }
+    if (this.$store.state.haveLogin != true) {
+      this.$https
+        .request({
+          url: this.$interfaces.getGoods,
+          data: {},
+          header: {
+            "content-type": "application/json" // 默认值
+          },
+          method: "GET"
+        })
+        .then(res => {
+          console.log(res);
+          this.items = res.goods;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else {
+      console.log(this.$store.state.cartId);
+      this.$https
+        .request({
+          url: this.$interfaces.commitCartGoods,
+          data: {
+            cartId: this.$store.state.cartId
+          },
+          header: {
+            "content-type": "application/json" // 默认值
+          },
+          method: "POST"
+        })
+        .then(res => {
+          console.log(res);
+          this.items = res.data.goods;
+          this.price = res.data.price;
+          this.total = res.data.total;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   },
   methods: {
     onClickIcon() {
@@ -131,10 +119,102 @@ export default {
       wx.navigateTo({
         url: "../orderPre/main"
       });
+    },
+    addGoods(id,index) {
+      // console.log(id, mainActiveIndex, index);
+      // console.log(this.items);
+      this.items[index].num=this.items[index].num+1;
+      this.total = this.total + 1;
+      this.price = this.price + this.items[index].price;
+      this.$https
+        .request({
+          url: this.$interfaces.addGoods,
+          data: {
+            cartId: this.$store.state.cartId,
+            goodId: id,
+            num: this.items[index].num,
+            price: this.price,
+            total: this.total
+          },
+          header: {
+            "content-type": "application/json" // 默认值
+          },
+          method: "POST"
+        })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    subGoods(id,index) {
+      this.items[index].num=this.items[index].num-1;
+      this.total = this.total - 1;
+      this.price = this.price - this.items[index].price;
+      this.$https
+        .request({
+          url: this.$interfaces.subGoods,
+          data: {
+            cartId: this.$store.state.cartId,
+            goodId: id,
+            num: this.items[index].num,
+            price: this.price,
+            total: this.total
+          },
+          header: {
+            "content-type": "application/json" // 默认值
+          },
+          method: "POST"
+        })
+        .then(res => {
+          console.log(res);
+          if(this.items[index].num==0){
+            this.items.splice(index,1);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    deleteGoods(id,index){
+      this.total = this.total - this.items[index].num;
+      this.price = this.price - this.items[index].price*this.items[index].num;
+      this.$https
+        .request({
+          url: this.$interfaces.subGoods,
+          data: {
+            cartId: this.$store.state.cartId,
+            goodId: id,
+            num: 0,
+            price: this.price,
+            total: this.total
+          },
+          header: {
+            "content-type": "application/json" // 默认值
+          },
+          method: "POST"
+        })
+        .then(res => {
+          console.log(res);
+          if(this.items[index].num==0){
+            this.items.splice(index,1);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };
 </script>
 
 <style>
+.goodSpan {
+  text-align: center;
+  display: inline-block;
+  width: 50rpx;
+  height: 50rpx;
+  transform: translateY(-30%);
+}
 </style>

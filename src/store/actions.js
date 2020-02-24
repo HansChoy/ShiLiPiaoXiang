@@ -61,6 +61,14 @@ export const setOrderId = ({ commit },data) => {
   commit("setOrderId",data);
 };
 
-export const setHavePhone = ({ commit },data) => {
-  commit("setHavePhone",data);
+export const setHaveLogin = ({ commit },data) => {
+  commit("setHaveLogin",data);
+};
+
+export const setUserId = ({ commit },data) => {
+  commit("setUserId",data);
+};
+
+export const setCartId = ({ commit },data) => {
+  commit("setCartId",data);
 };

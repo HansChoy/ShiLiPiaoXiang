@@ -19,4 +19,6 @@ export const oldUserAddress = state => state.oldUserAddress;
 export const isNewAddress = state => state.isNewAddress;
 export const showModel = state => state.showModel;
 export const orderId = state => state.orderId;
-export const havePhone = state => state.havePhone;
+export const haveLogin = state => state.haveLogin;
+export const cartId = state => state.cartId;
+export const userId = state => state.userId;
