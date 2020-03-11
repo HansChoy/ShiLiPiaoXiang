@@ -72,3 +72,11 @@ export const setCartId = (state, data) => {
 export const setUserId = (state, data) => {
   state.userId = data;
 };
+
+export const setGoodId = (state, data) => {
+  state.goodId = data;
+};
+
+export const setPrice = (state, data) => {
+  state.price = data;
+};

@@ -24,7 +24,7 @@
           :title="good.title"
           :thumb="good.thumb"
           :origin-price="good.originPrice"
-          @clickThumb="onClickThumb"
+          @clickThumb="onClickThumb(good.id)"
         >
           <div slot="footer">
             <van-icon name="icon/sub.png" size="50rpx" @click="subGoods(good.id,mainActiveIndex,index)" v-if="good.num!==0" />
@@ -83,9 +83,9 @@ export default {
       });
   },
   mounted() {
-    // if(this.$store.state.serviceDetail!=null){
-    //   this.mainActiveIndex=this.$store.state.serviceDetail;
-    // }
+    if(this.$store.state.serviceDetail!=null){
+      this.mainActiveIndex=this.$store.state.serviceDetail;
+    }
     if (this.$store.state.haveLogin != true) {
       this.$https
         .request({
@@ -174,12 +174,13 @@ export default {
       this.mainActiveIndex = event.mp.detail.index;
       console.log(this.mainActiveIndex);
     },
-    onClickThumb() {
-      wx.navigateTo({
+    onClick() {
+      wx.switchTab({
         url: "../shoppingCart/main"
       });
     },
-    onClickThumb() {
+    onClickThumb(id) {
+      this.$store.dispatch("setGoodId",id);
       wx.navigateTo({
         url: "../goodsDetail/main"
       });

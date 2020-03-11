@@ -16,7 +16,7 @@
       </div>
       <div class="weui-form-preview__bd">
         <div v-for="(item, index) in serviceItem" :key="index">
-          <orderPreviewItem :title="item.title" :content="item.content"></orderPreviewItem>
+          <orderPreviewItem :title="item.title" :price="item.price" :num="item.num"></orderPreviewItem>
         </div>
       </div>
       <div class="weui-form-preview__ft">
@@ -30,7 +30,7 @@
           <div v-if="showRegister" class="registerPart">
             <img @click="maskClick" src="/static/images/icon/cancel.png" />
             <div class="title">请输入支付密码</div>
-            <div class="detail">付款给ihome</div>
+            <div class="detail">付款给十里飘香</div>
             <div class="price">¥ {{price}}</div>
             <div class="pwipt">
               <input
@@ -94,101 +94,64 @@ export default {
       show5: false,
       show6: false,
       /********** */
-      price: 0.01,
+      price: 0,
+      total: 0,
       block: false,
       showRegister: false,
       showCustomPopup: false,
-      serviceItem: [
-        {
-          key: "0",
-          title: "服务",
-          content: "日常清洁"
-        },
-        {
-          key: "1",
-          title: "计费规则",
-          content: ""
-        },
-        {
-          key: "2",
-          title: "用户名",
-          content: ""
-        },
-        {
-          key: "3",
-          title: "上门时间",
-          content: ""
-        },
-        {
-          key: "4",
-          title: "地址",
-          content: ""
-        },
-        {
-          key: "5",
-          title: "联系电话",
-          content: ""
-        },
-        {
-          key: "6",
-          title: "备注",
-          content: ""
-        }
-      ],
-      order: {
-        username: "阿里吧唧",
-        address: "广东省-广州市-荔湾区-春田花花幼稚园xxx街道123号", //地址
-        phone: "123456789",
-        duration: "2小时", //服务时长
-        time: "2019年10月21日(周三)-8:00 - 10:00", //服务时间
-        price: 10, //价格
-        remarks:
-          "昌坤帅帅，昌坤最帅，昌坤帅帅，昌坤最帅，昌坤帅帅，昌坤最帅，昌坤帅帅，昌坤最帅，昌坤帅帅，昌坤最帅" //备注
-      }
-      //此order是根据接口需要最终发给后端的订单信息，与前一个页面的orderForm不同
-      // order: {
-      //   comm: "注释",
-      //   date: "2019年10月24日 8:00|2019年10月24日 10:00",
-      //   detailTypeId: 1,
-      //   price: 0,
-      //   userAddressId: 1,
-      //   userId: 1
-      // }
+      serviceItem: []
     };
   },
-  onShow() {  
-    //将台
-    // this.order.price = this.$store.state.orderForm.price;
-    // this.order.date = this.$store.state.orderForm.date;
-    // this.order.comm = this.$store.state.orderForm.remarks;
-    // this.order.detailTypeId = this.$store.state.orderForm.date;
-    // this.order.userAddressId = this.$store.state.orderForm.date;
-    // this.order.userId = this.$store.state.fakeId
-    // ⚠️一开始将存起来的orderForm一项一项赋给serviceItem[？].content
-    // this.password = "";
-    // this.show1 = false;
-    // this.show2 = false;
-    // this.show3 = false;
-    // this.show4 = false;
-    // this.show5 = false;
-    // this.show6 = false;
-    // this.showCustomPopup = false;
-    // this.showRegister = false;
-    this.price = this.$store.state.orderForm.price; //价格
-    this.serviceItem[0].content = this.$store.state.serviceDetail.typename; //服务
-    this.serviceItem[1].content = this.$store.state.orderForm.duration; //计费规则
-    this.serviceItem[2].content = this.$store.state.userAddress.username; //用户名
-    this.serviceItem[3].content = this.$store.state.orderForm.time; //上门时间
-    this.serviceItem[4].content =
-      this.$store.state.userAddress.province +
-      "-" +
-      this.$store.state.userAddress.city +
-      "-" +
-      this.$store.state.userAddress.detail; //地址
-    this.serviceItem[5].content = this.$store.state.userAddress.phone; //联系电话
-    this.serviceItem[6].content = this.$store.state.orderForm.remarks; //备注
+  // onShow() {
+  //   //将台
+  //   // this.order.price = this.$store.state.orderForm.price;
+  //   // this.order.date = this.$store.state.orderForm.date;
+  //   // this.order.comm = this.$store.state.orderForm.remarks;
+  //   // this.order.detailTypeId = this.$store.state.orderForm.date;
+  //   // this.order.userAddressId = this.$store.state.orderForm.date;
+  //   // this.order.userId = this.$store.state.fakeId
+  //   // ⚠️一开始将存起来的orderForm一项一项赋给serviceItem[？].content
+  //   // this.password = "";
+  //   // this.show1 = false;
+  //   // this.show2 = false;
+  //   // this.show3 = false;
+  //   // this.show4 = false;
+  //   // this.show5 = false;
+  //   // this.show6 = false;
+  //   // this.showCustomPopup = false;
+  //   // this.showRegister = false;
+  //   this.price = 1000; //价格
+  //   this.serviceItem[0].content = '炸鸡'; //服务
+  //   this.serviceItem[1].content = '按件'; //计费规则
+  //   this.serviceItem[2].content = 'ikun'; //用户名
+  //   this.serviceItem[3].content = '2020-2-24'; //上门时间
+  //   this.serviceItem[4].content =
+  //     '广东省' +
+  //     "-" +'潮州市'
+  //   this.serviceItem[5].content = '123456'; //联系电话
+  //   this.serviceItem[6].content = 'wu'; //备注
+  // },
+  mounted() {
+    this.$https
+      .request({
+        url: this.$interfaces.commitCartGoods,
+        data: {
+          cartId: this.$store.state.cartId
+        },
+        header: {
+          "content-type": "application/json" // 默认值
+        },
+        method: "POST"
+      })
+      .then(res => {
+        this.total =res.data.total;
+        this.price = res.data.price;
+        this.serviceItem = res.data.goods;
+      })
+      .catch(err => {
+        console.log(err);
+      });
   },
-
   methods: {
     maskClick() {
       this.block = false;
@@ -196,9 +159,35 @@ export default {
       this.showRegister = false;
     },
     toPay() {
-      this.showCustomPopup = true;
-      this.block = true;
-      this.showRegister = true;
+      this.$store.dispatch("setPrice",this.price);
+      this.$https
+      .request({
+        url: this.$interfaces.addOrder,
+        data: {
+          userId:this.$store.state.userId,
+          cartId:this.$store.state.cartId,
+          total:this.total,
+          price:this.price,
+          note:this.$store.state.orderForm.note,
+          type:this.$store.state.orderForm.type
+        },
+        header: {
+          "content-type": "application/json" // 默认值
+        },
+        method: "POST"
+      })
+      .then(res => {
+        console.log("下单成功");
+      })
+      .catch(err => {
+        console.log(err);
+      });
+      wx.navigateTo({
+        url: "../payOver/main"
+      });
+      // this.showCustomPopup = true;
+      // this.block = true;
+      // this.showRegister = true;
     },
     /*******支付密码框********/
     //关闭密码输入清空输入
@@ -213,70 +202,22 @@ export default {
       // 调用密码校验接口
 
       // 校验完成，向后端发送订单数据
-      this.$https
-        .request({
-          url: this.$interfaces.submitOrder,
-          data: {
-            comm:
-              this.$store.state.orderForm.duration +
-              "**" +
-              this.$store.state.orderForm.remarks,
-            date: this.$store.state.orderForm.date,
-            // detailTypeId: this.$store.state.serviceDetail.iServiceItemList.id,
-            // date: this.$store.state.orderForm.time,
-            detailTypeId: this.$store.state.serviceDetail.iServiceItemList[0]
-              .detailtypeId,
-            price: this.$store.state.orderForm.price,
-            userAddressId: this.$store.state.userAddress.id,
-            userId: this.$store.state.fakeId
-          },
-          header: {
-            "content-type": "application/json" // 默认值
-          },
-          method: "POST"
-        })
-        .then(res => {
-          console.log("提交订单成功！凯丰直播迎风驰翔");
-          console.log(
-            "comm:",
-            this.$store.state.orderForm.duration +
-              "**" +
-              this.$store.state.orderForm.remarks
-          );
-          console.log("date", this.$store.state.orderForm.date);
-          console.log(
-            this.$store.state.serviceDetail.iServiceItemList[0].detailtypeId
-          );
-          console.log("price", this.$store.state.orderForm.price);
-          console.log("userAddressId", this.$store.state.userAddress.id);
-          console.log("userId", this.$store.state.fakeId);
-          console.log("userAddress:", this.$store.state.userAddress);
-          
-          //跳转到支付完成页面
-          wx.navigateTo({
-            url: "../payOver/main",
-            success: res => {
-              this.password = "";
-              this.show1 = false;
-              this.show2 = false;
-              this.show3 = false;
-              this.show4 = false;
-              this.show5 = false;
-              this.show6 = false;
-              this.showRegister = false;
-              this.showCustomPopup = false;
-              console.log("密码缓存已清除");
-            }
-          });
-   
-          //  清除缓存
-          // this.$store.dispatch("setOrderForm", null);
-          // this.$store.dispatch("setUserAddress", null);
-        })
-        .catch(err => {
-          console.log("提交订单失败（不关我事～），失败信息：");
-          console.log(err);
-        });
+      //跳转到支付完成页面
+      wx.navigateTo({
+        url: "../payOver/main",
+        success: res => {
+          this.password = "";
+          this.show1 = false;
+          this.show2 = false;
+          this.show3 = false;
+          this.show4 = false;
+          this.show5 = false;
+          this.show6 = false;
+          this.showRegister = false;
+          this.showCustomPopup = false;
+          console.log("密码缓存已清除");
+        }
+      });
     },
 
     // 密码输入样式

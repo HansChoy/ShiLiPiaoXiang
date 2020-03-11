@@ -62,9 +62,9 @@ import mpNavbar from "mpvue-weui/src/navbar";
 export default {
   data() {
     return {
-      tabs: ["待服务", "服务中", "已完成"],
+      tabs: ["待取餐", "待评价", "已完成"],
       activeIndex: 0,
-      allOrderList: null,
+      allOrderList: [],
       state: 2,//首页展示状态初始化
       isHide: true, //提示是否存在
       istips: true //提示的状态绑定
@@ -79,13 +79,10 @@ export default {
     this.isHide = true;
     this.$https
       .request({
-        url: this.$interfaces.getOrderlistByid,
+        url: this.$interfaces.showOrderPreview,
         data: {
-          temp: this.$store.state.position,//注意!!!!!!!!!!正式用
-          userid: this.$store.state.fakeId, //注意!!!!!!!!!!!!正式用
-          // userid: 1, //输入值
-          // temp: 2, //用户类型 1为员工，2为普通用户
-          state: this.state
+          state: this.activeIndex+1,
+          userId: this.$store.state.userId
         },
         header: {
           "content-type": "application/json" // 默认值
@@ -95,7 +92,7 @@ export default {
       .then(res => {
         console.log(res);
         // 成功，刷新页面
-        this.allOrderList = res.iOrderList;
+        this.allOrderList = res.data;
         if (this.allOrderList.length == 0) {
           this.isHide = false;
         }
@@ -109,22 +106,11 @@ export default {
       this.isHide = true;
       console.log(e);
       this.activeIndex = Number(e.currentTarget.id);
-      if (this.activeIndex === 0) {
-        this.state = 2;
-      } else if (this.activeIndex === 1) {
-        this.state = 3;
-      } else if (this.activeIndex === 2) {
-        this.state = 4;
-      }
       this.$https
         .request({
-          url: this.$interfaces.getOrderlistByid,
+          url: this.$interfaces.showOrderPreview,
           data: {
-            temp: this.$store.state.position,//注意!!!!!!!!!!正式用
-            userid: this.$store.state.fakeId, //注意!!!!!!!!!!!!正式用
-            // userid: 1, //输入值
-            // temp: 2, //用户类型 1为员工，2为普通用户
-            state: this.state
+            state: this.activeIndex+1
           },
           header: {
             "content-type": "application/json" // 默认值
@@ -133,7 +119,7 @@ export default {
         })
         .then(res => {
           // 成功，刷新页面
-          this.allOrderList = res.iOrderList;
+          this.allOrderList = res.data;
           console.log(this.allOrderList);
           if (this.allOrderList.length == 0) {
             this.isHide = false;

@@ -7,8 +7,8 @@
  -->
 <template>
   <!-- <scroll-view class="home" scroll-y="true"> -->
-    <!-- 轮播图 -->
-    <div>
+  <!-- 轮播图 -->
+  <div>
     <div>
       <Swiper :images="images" />
     </div>
@@ -70,16 +70,10 @@
     <div class="serviceGuarantee">
       <p>店主推荐</p>
       <div v-for="(item,index) in service" :key="index">
-        <service-cell
-          :img="item.img"
-          :title="item.title"
-          :describe="item.describe"
-          :level="item.level"
-          :count="item.count"
-        ></service-cell>
+        <service-cell :img="item.thumb" :title="item.title" :describe="item.material" @click="showDetail(item.id)"></service-cell>
       </div>
     </div>
-    </div>
+  </div>
   <!-- </scroll-view> -->
 </template>
 
@@ -127,12 +121,12 @@ export default {
         {
           src: "http://localhost:8081/image/rice.png",
           name: "饭类",
-          index: 1
+          index: 2
         },
         {
           src: "http://localhost:8081/image/noodle.png",
           name: "汤面",
-          index: 2
+          index: 1
         },
         {
           src: "http://localhost:8081/image/fired.png",
@@ -150,25 +144,7 @@ export default {
           index: 5
         }
       ],
-      service: [
-        {
-          img: "http://localhost:8081/image/luroufan.jpg",
-          title: "台湾卤肉饭",
-          describe: "精选优质大米，加以卤汁浇淋，带给你极致的美味享受",
-        },
-        {
-          img: "http://localhost:8081/image/jipafan.jpg",
-          title: "鸡扒饭",
-          describe: "精选优质大米，香脆的鸡扒，让你忍不住再来一碗",
-        },
-        // {
-        //   img: "http://47.100.139.184/image/wechat/zypx.jpg",
-        //   title: "专业培训",
-        //   describe: "定期的专业培训，不断提高从业人员的服务质量和专业素养",
-        //   level: "完全安心",
-        //   count: "服务提升"
-        // },
-      ]
+      service: []
     };
   },
 
@@ -194,6 +170,24 @@ export default {
         // this.getRole();
       }
     });
+    this.$https
+      .request({
+        url: this.$interfaces.getRecommendGoods,
+        data: {},
+        header: {
+          "content-type": "application/json" // 默认值
+        },
+        method: "GET"
+      })
+      .then(res => {
+        // console.log("成功向后端发送用户公开信息");
+        this.service=res.cGoods
+        // console.log("UserId:", this.$store.state.userId);
+        // console.log("CartIdId:", this.$store.state.cartId);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   },
 
   methods: {
@@ -296,11 +290,19 @@ export default {
         });
       } else {
         //跳转到相应的服务详情页、传id给后端
+        
         this.$store.dispatch("setServiceDetail", index);
+        // console.log(index,this.$store.state.serviceDetail);
         wx.navigateTo({
           url: "../goods/main"
         });
       }
+    },
+    showDetail(id){
+      this.$store.dispatch("setGoodId",id);
+      wx.navigateTo({
+          url: "../goodsDetail/main"
+        });
     }
   },
   computed: {}

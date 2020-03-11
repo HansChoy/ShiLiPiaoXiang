@@ -35,19 +35,19 @@ export default {
   display: flex;
   flex-direction: row;
   box-sizing: border-box;
-  height: 260rpx;
-  padding: 20rpx 32rpx;
+  height: 300rpx;
+  padding: 20rpx 20rpx;
   background-color: #fff;
   border-bottom: 1px solid #ebeef5;
 }
 .service_cell img {
-  width: 40%;
-  height: 200rpx;
+  width: 50%;
+  height: 250rpx;
   margin-right: 10px;
   border-radius: 5px;
 }
 .cell_text {
-  width: 60%;
+  width: 70%;
 }
 .cell_text h4 {
   /* margin-top: 2px; */
@@ -62,14 +62,14 @@ export default {
 .cell_text h5 {
   margin-top: 2px;
   color: darkgray;
-  height: 50px;
+  height: 100px;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
-.cell_text p {
+/* .cell_text p {
   font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -81,5 +81,5 @@ export default {
 }
 .cell_text p .learn_count {
   color: #ccc;
-}
+} */
 </style>

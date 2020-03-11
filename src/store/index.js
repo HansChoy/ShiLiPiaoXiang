@@ -33,6 +33,8 @@ const state = {
   orderId: "",  //订单id
   userId:"",
   cartId:"",
+  goodId:"",
+  price:"",
 };
 
 export default new Vuex.Store({

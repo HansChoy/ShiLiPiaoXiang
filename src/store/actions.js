@@ -72,3 +72,11 @@ export const setUserId = ({ commit },data) => {
 export const setCartId = ({ commit },data) => {
   commit("setCartId",data);
 };
+
+export const setGoodId = ({ commit },data) => {
+  commit("setGoodId",data);
+};
+
+export const setPrice = ({ commit },data) => {
+  commit("setPrice",data);
+};

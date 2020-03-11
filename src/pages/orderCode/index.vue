@@ -1,5 +1,5 @@
 <!--
- * @Description: 支付完成页
+ * @Description: 取餐码
  * @Author: Wanlin Chen
  * @Date: 2019-10-20 11:58:49
  * @LastEditTime: 2019-10-31 09:12:39
@@ -8,17 +8,10 @@
 <template>
   <div class="payOver">
     <div class="icon">
-      <icon type="success" size="40" />
-      <div class="tips">支付成功</div>
+      <icon type="info" size="60" />
+      <div class="tips">您的取餐码为</div>
     </div>
-    <div class="price">￥{{price}}</div>
-    <div class="info">
-      <div class="little">收款方</div>
-      <div>
-        <img src="/static/images/logo.jpg" />
-      </div>
-      <!-- <div class="name">十里飘香</div> -->
-    </div>
+    <div class="price">A001</div>
     <button type="primary" @click="payOver">完成</button>
   </div>
 </template>
@@ -27,17 +20,17 @@
 export default {
   data() {
     return {
-      price: 0.01
     };
   },
   mounted() {
-    this.price = this.$store.state.price;
   },
   methods: {
     payOver() {
       // if (this.position === 1) {
-        wx.navigateTo({
-          url: "../orderCode/main",
+        wx.switchTab({
+          url: "../home/main",
+          success() {},
+          fail() {}
         });
       // } else {
       //   wx.switchTab({
@@ -84,6 +77,7 @@ export default {
   font-size: 20px;
 }
 .price {
+  color: #11AEFF;
   font-size: 50px;
   font-weight: bold;
   margin-bottom: 45px;

@@ -11,12 +11,20 @@
     <div class="weui-form-preview" @click="switchToDetail">
       <div class="weui-form-preview__bd">
         <div class="weui-form-preview__item">
-          <div class="weui-form-preview__label">服务</div>
-          <div class="weui-form-preview__value">{{allOrderList.detailtype.typename}}</div>
+          <div class="weui-form-preview__label">商品</div>
+          <div class="weui-form-preview__value">{{allOrderList.goodsName}}</div>
+        </div>
+        <div class="weui-form-preview__item">
+          <div class="weui-form-preview__label">取餐码</div>
+          <div class="weui-form-preview__value">{{allOrderList.cOrder.code}}</div>
         </div>
         <div class="weui-form-preview__item">
           <div class="weui-form-preview__label">下单时间</div>
           <div class="weui-form-preview__value">{{allOrderList.orderTime}}</div>
+        </div>
+        <div class="weui-form-preview__item">
+          <div class="weui-form-preview__label">共计</div>
+          <div class="weui-form-preview__value" style="color:red;font-size:18px">¥{{allOrderList.cOrder.price}}</div>
         </div>
       </div>
     </div>
@@ -103,11 +111,11 @@ export default {
       this.$refs.mpModal1.show();
     },
     switchToDetail() {
-      this.$store.dispatch("setOrderDetail", this.allOrderList);
+      this.$store.dispatch("setOrderId", this.allOrderList.cOrder.id);
       // console.log("sss");
       // console.log(this.$store.state.orderDetail);
       wx.navigateTo({
-        url: "/pages/orderdetail/main",
+        url: "/pages/detail/main",
         success: function(res) {
           // success
           console.log(res);
@@ -126,6 +134,12 @@ export default {
 }
 .weui-form-preview__value {
   color: black;
+  font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 /* .btns{
   padding:0;

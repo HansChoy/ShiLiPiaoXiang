@@ -8,7 +8,7 @@
 <template>
   <div class="shoppingCart">
     <scroll-view scroll-y="true" style="height: 1000rpx;">
-      <van-swipe-cell v-for="good in items" :key="good.item">
+      <van-swipe-cell v-for="good in items" :key="good.item" right-width="60">
         <van-card
           :num="good.num"
           :tag="good.tag"
@@ -30,7 +30,7 @@
             />
           </div>
         </van-card>
-        <van-button slot="right" square text="删除" type="danger" class="delete-button" @click="deletGoods(good.id,index)"/>
+        <van-button slot="right" square text="删除" type="danger" class="delete-button" @click="deleteGoods(good.id,index)">删除</van-button>
       </van-swipe-cell>
     </scroll-view>
     <van-submit-bar :price="price*100" button-text="结算" @submit="onSubmit">
@@ -54,28 +54,11 @@ export default {
       total: 0
     };
   },
-  mounted() {
+  onShow() {
     // if(this.$store.state.serviceDetail!=null){
     //   this.mainActiveIndex=this.$store.state.serviceDetail;
     // }
-    if (this.$store.state.haveLogin != true) {
-      this.$https
-        .request({
-          url: this.$interfaces.getGoods,
-          data: {},
-          header: {
-            "content-type": "application/json" // 默认值
-          },
-          method: "GET"
-        })
-        .then(res => {
-          console.log(res);
-          this.items = res.goods;
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    } else {
+    if (this.$store.state.haveLogin == true) {
       console.log(this.$store.state.cartId);
       this.$https
         .request({
@@ -197,7 +180,7 @@ export default {
         })
         .then(res => {
           console.log(res);
-          if(this.items[index].num==0){
+          if(res.flag==true){
             this.items.splice(index,1);
           }
         })
@@ -216,5 +199,8 @@ export default {
   width: 50rpx;
   height: 50rpx;
   transform: translateY(-30%);
+}
+.van-button--normal{
+  height: 100% !important;
 }
 </style>

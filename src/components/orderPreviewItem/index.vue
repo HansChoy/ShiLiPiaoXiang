@@ -9,7 +9,7 @@
   <div class="orderPreviewItem">
     <div class="weui-form-preview__item">
       <div class="weui-form-preview__label" :title="title">{{title}}</div>
-      <div class="weui-form-preview__value" :content="content">{{content}}</div>
+      <div class="weui-form-preview__value" :price="price" :num="num">￥{{price}}×{{num}}</div>
     </div>
   </div>
 </template>
@@ -18,7 +18,8 @@
 export default {
   props: {
     title: String,
-    content: String
+    price: Number,
+    num:Number,
   }
 };
 </script>

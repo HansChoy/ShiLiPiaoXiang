@@ -5,7 +5,7 @@
  * @LastEditTime: 2019-11-03 21:56:43
  * @LastEditors: Lin Changkun
  */
-const domain = "http://localhost:8081/json/"; //局域网通信
+const domain = "http://192.168.0.100:8081/json/"; //局域网通信
 // const domain = "https://ilfengzi.club/";    //服务器通信
 
 const interfaces = {
@@ -15,6 +15,13 @@ const interfaces = {
   subGoods:domain +'shoppingCart/subGoods',
   showCartGoods:domain +'shoppingCart/showCartGoods',
   commitCartGoods:domain +'shoppingCart/commitCartGoods',
+  getRecommendGoods:domain +'goods/getRecommendGoods',
+  showGoodDetail:domain +'goods/showGoodDetail',
+  getCartGoodsDetail: domain +'shoppingCart/getCartGoodsDetail',
+  addOrder:domain+'order/addOrder',
+  showOrderPreview: domain+'order/showOrderPreview',
+  showOrder: domain+'order/showOrder',
+
   getRole: domain + 'json/role', //获取角色接口
   getHome: domain + 'json/home',  //获取首页接口
   getOrder: domain + 'json/order', //获取订单接口
