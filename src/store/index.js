@@ -35,6 +35,7 @@ const state = {
   cartId:"",
   goodId:"",
   price:"",
+  code:"",
 };
 
 export default new Vuex.Store({

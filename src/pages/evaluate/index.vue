@@ -12,8 +12,8 @@
       <!-- 用户信息 -->
       <img src="/static/images/logo.jpg" alt />
       <div class="user_detail">
-        <h4>iHome</h4>
-        <span>已贡献{{length}}条数据</span>
+        <h4>十里飘香</h4>
+        <span style="color:black">已贡献{{length}}条数据</span>
       </div>
     </div>
     <!-- 评价列表 -->
@@ -37,19 +37,16 @@ export default {
   data() {
     return {
       length: Number, ////统计该用户评价表数据库中有多少条数据
-      evaluateList:null
+      evaluateList:[]
     };
   }, 
   onShow() {
-     console.log("成功加载");        
+    console.log("成功加载");        
     this.$https
       .request({   
-        url: this.$interfaces.getEvaluate,
+        url: this.$interfaces.showEvaluate,
         data: {
-          temp: this.$store.state.position,//注意!!正式用
-          userid: this.$store.state.fakeId, //注意!!正式用
-          // userid: 3, //输入值       
-          // temp:4 //用户类型 1为员工，4为普通用户
+          userId: this.$store.state.userId, 
         },
         header: {
           "content-type": "application/json" // 默认值
@@ -57,11 +54,9 @@ export default {
         method: "POST"
       })
       .then(res => {
-        console.log(res);
         // 成功，刷新页面
-         this.evaluateList = res.iEvaluateList;
-         this.length = this.evaluateList.length;
-         console.log(this.evaluateList);
+        this.evaluateList = res.data;
+        this.length = this.evaluateList.length;
       })
       .catch(err => {
         console.log(err);

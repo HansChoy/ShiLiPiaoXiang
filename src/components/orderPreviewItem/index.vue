@@ -9,7 +9,8 @@
   <div class="orderPreviewItem">
     <div class="weui-form-preview__item">
       <div class="weui-form-preview__label" :title="title">{{title}}</div>
-      <div class="weui-form-preview__value" :price="price" :num="num">￥{{price}}×{{num}}</div>
+      <div class="weui-form-preview__value" :price="price" :num="num" :tagNum="tagNum" :ifsale="ifsale" v-if="ifsale==0||num<=tagNum">￥{{price}}×{{num}}</div>
+      <div class="weui-form-preview__value" :price="price" :num="num" :tagNum="tagNum" :originPrice="originPrice" v-else>￥{{price}}×{{tagNum}},￥{{originPrice}}×{{num-tagNum}}</div>
     </div>
   </div>
 </template>
@@ -20,6 +21,9 @@ export default {
     title: String,
     price: Number,
     num:Number,
+    originPrice:Number,
+    tagNum:Number,
+    ifsale:Number
   }
 };
 </script>

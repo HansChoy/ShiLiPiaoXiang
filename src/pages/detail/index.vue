@@ -19,7 +19,11 @@
           :title="good.title"
           :thumb="good.thumb"
           :origin-price="good.originPrice"
-        ></van-card>
+        ><div slot="tags" v-if="good.ifsale==1">
+            <van-tag plain type="danger">限购{{good.tagNum}}件</van-tag>
+        </div>
+        </van-card>
+        
         <div slot="footer" class="footer-class">
           <div class="right">
             <!-- <van-button size="small">按钮</van-button>
@@ -54,6 +58,9 @@
           </div>
         </div>
       </van-panel>
+      <van-panel title="备注信息">
+        <div style="padding:20rpx">{{note}}</div>
+      </van-panel>
     </scroll-view>
   </div>
 </template>
@@ -77,6 +84,7 @@ export default {
       items: [],
       order: [],
       orderTime:null,
+      note:null,
     };
   },
   onShow() {
@@ -102,6 +110,7 @@ export default {
         this.total = res.data.cOrder.total;
         this.order = res.data.cOrder;
         this.orderTime = res.data.orderTime;
+        this.note=res.data.cOrder.note;
         console.log(this.items)
       })
       .catch(err => {

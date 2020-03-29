@@ -19,7 +19,11 @@
           :title="good.title"
           :thumb="good.thumb"
           :origin-price="good.originPrice"
-        ></van-card>
+        >
+        <div slot="tags" v-if="good.ifsale==1">
+            <van-tag plain type="danger">限购{{good.tagNum}}件</van-tag>
+        </div>
+        </van-card>
       </van-panel>
       <van-panel title="就餐方式">
         <div style="padding:20rpx">
@@ -79,24 +83,6 @@ export default {
     // if(this.$store.state.serviceDetail!=null){
     //   this.mainActiveIndex=this.$store.state.serviceDetail;
     // }
-    if (this.$store.state.haveLogin != true) {
-      this.$https
-        .request({
-          url: this.$interfaces.getGoods,
-          data: {},
-          header: {
-            "content-type": "application/json" // 默认值
-          },
-          method: "GET"
-        })
-        .then(res => {
-          console.log(res);
-          this.items = res.goods;
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    } else {
       console.log(this.$store.state.cartId);
       this.$https
         .request({
@@ -118,7 +104,7 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    }
+    
   },
   methods: {
     onInput(event) {

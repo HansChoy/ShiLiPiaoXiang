@@ -11,15 +11,15 @@
       <div class="head">您对服务质量满意吗？</div>
       <mp-rate @rateClick="qualClick" :isSupportClick="true"></mp-rate>
     </div>
-    <div class="attitude">
+    <!-- <div class="attitude">
       <div class="head">您对服务人员满意吗？</div>
       <div class="att_Eval">
         <mp-rate @rateClick="attitudeClick" :isSupportClick="true"></mp-rate>
       </div>
-    </div>
+    </div> -->
 
     <div class="describe">
-      <div class="head">您对服务/我司有什么建议吗？</div>
+      <div class="head">您对服务/本店有什么意见建议吗？</div>
       <div class="inp">
         <textarea
           placeholder="请输入您对我们服务的详细评价"
@@ -44,9 +44,7 @@ export default {
   },
   data() {
     return {
-      orderId: 3, //从前一个跳转页面获取
       quality: 0,
-      attitude: 0,
       describe: "",
       // makeEval: {
       //   rateValue1: 0,
@@ -63,12 +61,6 @@ export default {
   // },
 
   methods: {
-    //评分点击事件
-    attitudeClick(index) {
-      console.log("shenqi:", index);
-      this.attitude = index;
-      // this.rateValue2 = index;
-    },
     qualClick(index) {
       this.quality = index;
       // this.rateValue1 = index;
@@ -76,14 +68,12 @@ export default {
     submited() {
       this.$https
         .request({
-          url: this.$interfaces.setEvaluate,
+          url: this.$interfaces.makeEvaluate,
           data: {
-            attitude_valuation: this.attitude,
-            // attitude_valuation: this.rateValue2,
-            describe: this.describe,
-            id: this.$store.state.orderId,
-            quality_valuation: this.quality
-            // quality_valuation: this.rateValue1
+            rate: this.quality+1,
+            text: this.describe,
+            orderId: this.$store.state.orderId,
+            userId:this.$store.state.userId,
           },
           header: {
             "content-type": "application/json" // 默认值
@@ -98,6 +88,7 @@ export default {
             success: res => {
               console.log("初始化:");
               this.describe = "";
+              this.quality=0;
             }
           });
           // 告诉上一层要干掉这一个订单的评价按钮

@@ -11,7 +11,7 @@
       <icon type="info" size="60" />
       <div class="tips">您的取餐码为</div>
     </div>
-    <div class="price">A001</div>
+    <div class="price">{{code}}</div>
     <button type="primary" @click="payOver">完成</button>
   </div>
 </template>
@@ -20,9 +20,12 @@
 export default {
   data() {
     return {
+      code:null,
     };
   },
-  mounted() {
+  onShow() {
+    console.log(this.$store.state.code)
+    this.code=this.$store.state.code;
   },
   methods: {
     payOver() {

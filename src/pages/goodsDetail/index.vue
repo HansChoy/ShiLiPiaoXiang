@@ -10,13 +10,15 @@
     <van-image width="750rpx" height="400rpx" :src="img" />
     <!-- <img :src="img" mode="center" /> -->
     <van-panel :title="title">
-      <div style="padding:20rpx;width:30%;display:inline-block">
+      <div style="padding:20rpx;width:45%;display:inline-block">
         <span style="color:red;font-weight:bold;font-size:18px">¥{{price}}</span>
         &nbsp;
         <span
           v-if="origin_price!=null"
           style="text-decoration:line-through;font-size:14px;color:#C0C0C0"
         >¥{{origin_price}}</span>
+        &nbsp;
+        <van-tag plain type="danger" v-if="ifsale==1" style="display:inline-block">限购{{tagNum}}件</van-tag>
       </div>
       <div class="right">
         <div style="float:right">
@@ -33,9 +35,9 @@
     <van-panel title="主要材料">
       <div style="padding:20rpx">{{material}}</div>
     </van-panel>
-    <van-panel title="评价">
+    <!-- <van-panel title="评价">
       <div>暂无评价</div>
-    </van-panel>
+    </van-panel> -->
     <van-submit-bar :price="sum*100" button-text="加入购物车" @submit="onSubmit">
       <van-goods-action-icon icon="cart-o" text="购物车" @click="onClick" v-if="total===0" />
       <van-goods-action-icon icon="cart-o" text="购物车" @click="onClick" :info="total" v-else />
@@ -56,7 +58,9 @@ export default {
       num: 0,
       total: 0,
       sum: 0.0,
-      origin_price: null
+      origin_price: null,
+      ifsale:0,
+      tagNum:0,
     };
   },
   mounted() {
@@ -81,6 +85,8 @@ export default {
           this.num = res.cGoods.num;
           this.desc = res.cGoods.desc;
           this.title = res.cGoods.title;
+          this.ifsale= res.cGoods.ifsale;
+          this.tagNum=res.cGoods.tagNum;
         })
         .catch(err => {
           console.log(err);
@@ -108,7 +114,9 @@ export default {
           this.desc = res.data.goods.desc;
           this.title = res.data.goods.title;
           this.total = res.data.total;
-          this.sum=res.data.sum;
+          this.sum=res.data.price;
+          this.ifsale= res.data.goods.ifsale;
+          this.tagNum=res.data.goods.tagNum;
         })
         .catch(err => {
           console.log(err);
@@ -130,9 +138,18 @@ export default {
       });
     },
     addGoods(id) {
+      if (this.$store.state.haveLogin != true) {
+        wx.navigateTo({
+          url: "../login/main"
+        });
+      }else {
       this.num = this.num + 1;
       this.total = this.total + 1;
-      this.sum = this.sum + this.price;
+      if(this.ifsale==1&&this.num>this.tagNum){
+        this.sum=this.sum+this.origin_price;
+      }else{
+        this.sum = this.sum + this.price;
+      }
       this.$https
         .request({
           url: this.$interfaces.addGoods,
@@ -150,16 +167,27 @@ export default {
           method: "POST"
         })
         .then(res => {
-          console.log(res);
+           if(this.num==this.tagNum){
+              wx.showToast({
+                title: "超过限购数量按原价计算",
+                icon: "none",
+                duration: 2000
+              });
+          }
         })
         .catch(err => {
           console.log(err);
         });
+      }
     },
     subGoods(id) {
       this.num = this.num - 1;
       this.total = this.total - 1;
-      this.sum = this.sum - this.price;
+      if(this.ifsale==1&&this.num>=this.tagNum){
+        this.sum=this.sum-this.origin_price;
+      }else{
+        this.sum = this.sum - this.price;
+      }
       this.$https
         .request({
           url: this.$interfaces.subGoods,
@@ -192,7 +220,7 @@ export default {
   float: left;
 }
 .right {
-  width: 50%;
+  width: 40%;
   height: 20%;
   padding: 20rpx;
   float: right;

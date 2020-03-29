@@ -36,7 +36,7 @@ export default {
   methods: {
     payOver() {
       // if (this.position === 1) {
-        wx.navigateTo({
+        wx.reLaunch({
           url: "../orderCode/main",
         });
       // } else {

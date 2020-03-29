@@ -29,7 +29,7 @@
       </div>
     </div>
     <div class="btns">
-      <button @click="cal" :class="{'hide':allOrderList.state!==2,'btn':true}">取消订单</button>
+      <button @click="cal" :class="{'hide':allOrderList.cOrder.state!==1,'btn':true}">取消订单</button>
       <mp-modal
         ref="mpModal1"
         title="提示"
@@ -47,7 +47,7 @@
         @confirm="complete"
         @cancel="cancel"
       ></mp-modal>
-      <button v-if="position!==1" @click="makeEval" :class="{'hide':allOrderList.state!==4,'btn':true}">订单评价</button>
+      <button  @click="makeEval(index)" :class="{'hide':allOrderList.cOrder.state!==2,'btn':true}">订单评价</button>
     </div>
   </div>
 </template>
@@ -74,25 +74,10 @@ export default {
   },
   computed: {},
   methods: {
-    makeEval() {
-      this.$store.dispatch("setOrderId", this.orderId);
-      console.log("成功存起了orderId：", this.$store.state.orderId);
-      /**
-       * 路由跳转，有事件
-       */
+    makeEval(index) {
+      this.$store.dispatch("setOrderId", this.allOrderList.cOrder.id);
       wx.navigateTo({
         url: "../../pages/makeEval/main",
-        // events: {
-        //   // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
-        //   //使用箭头函数可解决this的作用域问题，箭头函数的this就是外部的this
-        //   makeEvalOver: isDelete => {
-        //     if (isDelete.data === "true") {
-        //       console.log("isDelete:", isDelete.data);
-        //       // 干掉“订单评价”的button
-        //       this.hide = false;
-        //     }
-        //   }
-        // }
       });
     },
 

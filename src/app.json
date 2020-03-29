@@ -81,6 +81,7 @@
     "van-field": "/static/vant/field/index",
     "van-panel": "/static/vant/panel/index",
     "van-image": "/static/vant/image/index",
-    "van-icon": "/static/vant/icon/index"
+    "van-icon": "/static/vant/icon/index",
+    "van-tag": "/static/vant/tag/index"
   }
 }

@@ -52,7 +52,7 @@
 
     <!-- 热门服务 -->
     <div class="popService">
-      <p>热门服务</p>
+      <p>商品分类</p>
       <div class="page__bd">
         <div class="weui-grids">
           <div v-for="item in grids" :key="item.index" @click="passData(item.index)">
@@ -95,14 +95,14 @@ export default {
       phoneNumber: "", //输入的手机号码
       images: [
         {
-          url: "http://localhost:8081/image/lunbo1.jpg"
+          url: "https://localhost:8081/image/lunbo1.jpg"
           // url: "/static/homeImg/lunbo1.jpg"
         },
         {
-          url: "http://localhost:8081/image/lunbo2.jpg"
+          url: "https://localhost:8081/image/lunbo2.jpg"
         },
         {
-          url: "http://localhost:8081/image/lunbo3.jpg"
+          url: "https://localhost:8081/image/lunbo3.jpg"
         }
       ],
       inputShowed: false, //搜索
@@ -114,32 +114,32 @@ export default {
         //   index: 1
         // },
         {
-          src: "http://localhost:8081/image/sale.png",
+          src: "https://localhost:8081/image/sale.png",
           name: "折扣优惠",
           index: 0
         },
         {
-          src: "http://localhost:8081/image/rice.png",
+          src: "https://localhost:8081/image/rice.png",
           name: "饭类",
           index: 2
         },
         {
-          src: "http://localhost:8081/image/noodle.png",
+          src: "https://localhost:8081/image/noodle.png",
           name: "汤面",
           index: 1
         },
         {
-          src: "http://localhost:8081/image/fired.png",
+          src: "https://localhost:8081/image/fired.png",
           name: "小炒",
           index: 3
         },
         {
-          src: "http://localhost:8081/image/drink.png",
+          src: "https://localhost:8081/image/drink.png",
           name: "饮品",
           index: 4
         },
         {
-          src: "http://localhost:8081/image/all.png",
+          src: "https://localhost:8081/image/all.png",
           name: "全部",
           index: 5
         }

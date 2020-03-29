@@ -16,7 +16,7 @@
       </div>
       <div class="weui-form-preview__bd">
         <div v-for="(item, index) in serviceItem" :key="index">
-          <orderPreviewItem :title="item.title" :price="item.price" :num="item.num"></orderPreviewItem>
+          <orderPreviewItem :title="item.title" :price="item.price" :num="item.num" :ifsale="item.ifsale" :tagNum="item.tagNum" :originPrice="item.originPrice"></orderPreviewItem>
         </div>
       </div>
       <div class="weui-form-preview__ft">
@@ -102,35 +102,6 @@ export default {
       serviceItem: []
     };
   },
-  // onShow() {
-  //   //将台
-  //   // this.order.price = this.$store.state.orderForm.price;
-  //   // this.order.date = this.$store.state.orderForm.date;
-  //   // this.order.comm = this.$store.state.orderForm.remarks;
-  //   // this.order.detailTypeId = this.$store.state.orderForm.date;
-  //   // this.order.userAddressId = this.$store.state.orderForm.date;
-  //   // this.order.userId = this.$store.state.fakeId
-  //   // ⚠️一开始将存起来的orderForm一项一项赋给serviceItem[？].content
-  //   // this.password = "";
-  //   // this.show1 = false;
-  //   // this.show2 = false;
-  //   // this.show3 = false;
-  //   // this.show4 = false;
-  //   // this.show5 = false;
-  //   // this.show6 = false;
-  //   // this.showCustomPopup = false;
-  //   // this.showRegister = false;
-  //   this.price = 1000; //价格
-  //   this.serviceItem[0].content = '炸鸡'; //服务
-  //   this.serviceItem[1].content = '按件'; //计费规则
-  //   this.serviceItem[2].content = 'ikun'; //用户名
-  //   this.serviceItem[3].content = '2020-2-24'; //上门时间
-  //   this.serviceItem[4].content =
-  //     '广东省' +
-  //     "-" +'潮州市'
-  //   this.serviceItem[5].content = '123456'; //联系电话
-  //   this.serviceItem[6].content = 'wu'; //备注
-  // },
   mounted() {
     this.$https
       .request({
@@ -178,11 +149,12 @@ export default {
       })
       .then(res => {
         console.log("下单成功");
+        this.$store.dispatch("setCode",res.code);
       })
       .catch(err => {
         console.log(err);
       });
-      wx.navigateTo({
+      wx.reLaunch({
         url: "../payOver/main"
       });
       // this.showCustomPopup = true;

@@ -24,3 +24,4 @@ export const cartId = state => state.cartId;
 export const userId = state => state.userId;
 export const goodId = state => state.goodId;
 export const price = state => state.price;
+export const code = state => state.code;

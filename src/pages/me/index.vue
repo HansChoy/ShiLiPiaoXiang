@@ -45,12 +45,12 @@
     <div class="order_info">
       <mineCell @click="swithToallOrder" icon="/static/images/icon/mine/myOrder.png" title="我的订单"></mineCell>
       <!-- 普通用户 -->
-      <mineCell
+      <!-- <mineCell
         v-if="position === 4"
         @click="swithToaddress"
         icon="/static/images/icon/mine/address.png"
         title="我的地址"
-      ></mineCell>
+      ></mineCell> -->
       <mineCell @click="swithToEvaluate" icon="/static/images/icon/mine/Eval.png" title="我的评价"></mineCell>
       <!-- 员工 -->
       <mineCell
@@ -66,7 +66,7 @@
     <!-- 普通用户 -->
     <div v-if="position === 4" class="contact">
       <img src="/static/images/dianhua.png" />
-      <span @click="handleContact">联系客服</span>
+      <span @click="handleContact">联系商家</span>
     </div>
 
     <!-- 获取手机号模态框 -->
@@ -202,7 +202,11 @@ export default {
             // console.log("CartIdId:", this.$store.state.cartId);
             this.$store.dispatch("setHaveLogin", true);
             this.haveLogin=false;
-            
+            wx.showToast({
+              title: "登录成功",
+              icon: "none",
+              duration: 2000
+            });
             // console.log(res);
             // 路由跳转
           })
@@ -294,7 +298,7 @@ export default {
 
     handleContact() {
       wx.makePhoneCall({
-        phoneNumber: "13202019516" //仅为示例，并非真实的电话号码
+        phoneNumber: "13030240932" //仅为示例，并非真实的电话号码
       });
     },
     swithToAboutUs() {
@@ -304,8 +308,8 @@ export default {
     },
     swithToallOrder() {
       console.log(123);
-      wx.navigateTo({
-        url: "../allorder/main"
+      wx.switchTab({
+        url: "../order/main"
       });
     },
     swithToEvaluate() {

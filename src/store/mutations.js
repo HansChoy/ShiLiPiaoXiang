@@ -80,3 +80,7 @@ export const setGoodId = (state, data) => {
 export const setPrice = (state, data) => {
   state.price = data;
 };
+
+export const setCode = (state, data) => {
+  state.code = data;
+};

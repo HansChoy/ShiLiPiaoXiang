@@ -9,7 +9,7 @@
   <div class="container">
     <div class="login">
       <img src="/static/images/logo.jpg" alt />
-      <span class="name">i家-家政</span>
+      <span class="name">十里飘香</span>
       <div class="authorization">
         <!-- 注意：因为mpvue是vue的语法，但又要用小程序给定但的事件，所以绑定一个事件结合的是vue的 @ 和小程序的 bind -->
         <button open-type="getUserInfo" lang="zh_CN" @getuserinfo="onGotUserInfo">微信登录</button>
@@ -25,11 +25,11 @@ export default {
       js_code: ""
     };
   },
-  mounted() {
-    wx.login({
-      success: res => {
-        this.js_code = res.code;
-      }
+  onShow() {
+    wx.showToast({
+      title: "您还未登录，请先登录",
+      icon: "none",
+      duration: 1500
     });
   },
   methods: {
@@ -43,14 +43,16 @@ export default {
         this.$store.dispatch("setUser", e.mp.detail.userInfo);
         // this.userInfo = e.mp.detail.userInfo;
         // this.getRole(); //获取角色
-
-        this.$https
+        wx.login({
+        success: res => {
+          // this.js_code = res.code;
+          this.$https
           .request({
             url: this.$interfaces.getOpenid,
             data: {
               // userInfo: this.$store.state.user, //用户信息
               // getcode: this.js_code //wx.login登录获取的code值
-              getcode: this.js_code,
+              getcode: res.code,
               userInfo: e.mp.detail.userInfo
             },
             header: {
@@ -60,15 +62,24 @@ export default {
           })
           .then(res => {
             console.log("成功向后端发送用户公开信息");
-            console.log(res);
-            // 路由跳转
+            // console.log(res)
+            this.$store.dispatch("setUserId", res.data[0]);
+            this.$store.dispatch("setCartId", res.data[1]);
+            // console.log("UserId:", this.$store.state.userId);
+            // console.log("CartIdId:", this.$store.state.cartId);
+            this.$store.dispatch("setHaveLogin", true);
+            this.haveLogin=false;
             wx.switchTab({
               url: "../home/main"
             });
+            // console.log(res);
+            // 路由跳转
           })
           .catch(err => {
             console.log(err);
           });
+        }
+      });
       }
     }
 
@@ -170,7 +181,8 @@ export default {
   top: 60%;
   left: 19%;
   width: 62%;
-  background-color: #009eef;
+   /* #009eef */
+  background-color: #09BB07;
   color: white;
 }
 </style>

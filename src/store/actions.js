@@ -80,3 +80,6 @@ export const setGoodId = ({ commit },data) => {
 export const setPrice = ({ commit },data) => {
   commit("setPrice",data);
 };
+export const setCode = ({ commit },data) => {
+  commit("setCode",data);
+};
